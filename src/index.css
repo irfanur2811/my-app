@@ -41,3 +41,216 @@ body{
 .form label{display:flex;flex-direction:column;font-size:14px;color:var(--muted)}
 .btn{display:inline-block;background:var(--accent);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;border:0;cursor:pointer}
 .site-footer{margin-top:40px;padding:14px 0;border-top:1px solid #eef2f7;background:#fff}
+
+/* --- Hero + countdown styles (append) --- */
+.hero-couple { padding: 40px 0; background: linear-gradient(180deg,#fff,#fbfdff); }
+.hero-inner { display:flex; gap:20px; align-items:center; justify-content:space-between; }
+.hero-left { flex:1; }
+.hero-left h1 { font-size:38px; margin:0 0 8px; }
+.hero-left .lead { color:var(--muted); margin:0; }
+
+.hero-right { width:260px; text-align:center; background:#fff; border:1px solid #eef2f7; padding:18px; border-radius:12px; box-shadow:0 6px 20px rgba(15,23,42,0.03); }
+.countdown { display:flex; justify-content:center; gap:10px; margin-top:10px; }
+.count-item { min-width:60px; background:#f8feff; border-radius:10px; padding:8px 10px; border:1px solid #e6f7fb; }
+.count-item strong { display:block; font-size:18px; color:var(--accent); }
+.count-item span { font-size:12px; color:var(--muted); }
+
+/* memories cards */
+.memory-card { padding:14px; border-radius:10px; border:1px solid #eef2f7; background:#fff; }
+.btn-ghost { background:transparent; color:var(--muted); border:1px solid transparent; padding:8px 12px; border-radius:10px; }
+.btn-sm { padding:6px 10px; font-size:14px; }
+.small { font-size:13px; }
+
+/* ===== Beautiful Hero + Animations (append to index.css) ===== */
+
+/* animated gradient background */
+.hero-couple {
+  padding: 56px 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff7fb 0%, #f1fcff 35%, #f6f9ff 100%);
+  transition: background 0.6s ease;
+}
+
+/* subtle moving gradient overlay */
+@keyframes gradientMove {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* floating shapes */
+.floating-shapes { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.shape {
+  position: absolute; opacity: .14; filter: blur(2px); transform-origin:center;
+  animation: float 8s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes float {
+  0% { transform: translateY(0) translateX(0) rotate(0); }
+  50%{ transform: translateY(-18px) translateX(6px) rotate(6deg); }
+  100%{ transform: translateY(0) translateX(0) rotate(0); }
+}
+.floating-shapes .s1 { width:220px;height:220px;border-radius:36px;background:linear-gradient(135deg,#ffd6e8,#ffd0b3); top:-40px; left:-40px; animation-duration:10s;}
+.floating-shapes .s2 { width:160px;height:160px;border-radius:26px;background:linear-gradient(135deg,#d8f0ff,#cbd6ff); top:10%; right:-60px; animation-duration:12s; animation-delay: .6s;}
+.floating-shapes .s3 { width:120px;height:120px;border-radius:28px;background:linear-gradient(135deg,#ffefe6,#ffe9f2); bottom:10%; left:8%; animation-duration:9s; animation-delay: .9s;}
+.floating-shapes .s4 { width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#ffd4ff,#d4f7ff); bottom:5%; right:10%; animation-duration:11s; animation-delay: .3s;}
+.floating-shapes .heart {
+  font-size:28px; color:#ff6b9f; opacity:.9; left:50%; top:10%; transform:translateX(-50%); animation: heartBeat 2s infinite;
+}
+@keyframes heartBeat {
+  0% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.12); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+/* hero inner */
+.hero-inner { display:flex; gap:28px; align-items:center; justify-content:space-between; position:relative; z-index:2; }
+.hero-left { flex:1; padding:18px 0; max-width:64%; }
+.badge { display:inline-block; background:linear-gradient(90deg,#ffbfd4,#ffd9b6); padding:6px 10px; border-radius:12px; font-weight:600; color:#5b2b2b; margin-bottom:12px; box-shadow:0 6px 20px rgba(14,21,41,0.04); }
+.hero-title { font-size:40px; line-height:1.02; margin:6px 0 12px; letter-spacing:-0.5px; color:#0f1724; text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+.lead { color: #5b6b73; font-size:16px; margin-bottom:14px; }
+
+/* CTA buttons */
+.cta-row { display:flex; gap:12px; align-items:center; margin:16px 0; }
+.btn { display:inline-block; padding:10px 16px; border-radius:12px; text-decoration:none; font-weight:600; transition:transform .18s ease, box-shadow .18s ease; box-shadow: 0 6px 18px rgba(14,20,30,0.06); }
+.btn-glow { background: linear-gradient(90deg,#ff7fb3,#8ad3ff); color:white; }
+.btn-glow:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(138,211,255,0.18); }
+.btn-ghost { background:transparent; color:var(--muted); border:1px solid rgba(15,23,42,0.04); }
+.btn-sm { padding:6px 10px; font-size:14px; border-radius:8px }
+
+/* small tip */
+.small-note { margin-top:10px; color:var(--muted); font-size:13px; }
+
+/* glass card on right */
+.card-glass { width:260px; text-align:center; background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.72)); border-radius:14px; padding:18px; border:1px solid rgba(255,255,255,0.6); box-shadow: 0 8px 40px rgba(12,20,46,0.06); backdrop-filter: blur(6px); }
+
+/* countdown styling */
+.countdown { display:flex; justify-content:center; gap:10px; margin:14px 0; }
+.count-item { min-width:64px; background: linear-gradient(180deg,#ffffff,#faf9ff); border-radius:12px; padding:10px 12px; border:1px solid rgba(14,20,30,0.04); text-align:center; box-shadow: 0 8px 20px rgba(15,23,42,0.04); transform-origin:center; }
+.count-item strong { display:block; font-size:20px; color:#ff6b9f; }
+.count-item span { font-size:12px; color:var(--muted); }
+
+/* pop animation for numbers */
+@keyframes pop {
+  0% { transform: scale(.92); opacity:0 }
+  50% { transform: scale(1.06); opacity:1 }
+  100% { transform: scale(1); opacity:1 }
+}
+.animate-pop { animation: pop .42s cubic-bezier(.2,.8,.2,1) both; }
+
+/* Memories grid */
+.memories-section { padding-top:28px; padding-bottom:60px; }
+.memory-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top:14px; }
+.memory-card { display:flex; gap:12px; background: linear-gradient(180deg,#ffffff,#fffafc); border-radius:14px; border:1px solid rgba(14,20,30,0.04); overflow:hidden; padding:12px; align-items:flex-start; transform: translateY(8px); opacity:0; transition: transform .36s ease, opacity .36s ease; }
+.memory-card .memory-image { width:92px; height:72px; border-radius:10px; background: linear-gradient(135deg,#ffecd9,#ffd6ea); flex-shrink:0; box-shadow: 0 8px 20px rgba(15,23,42,0.03); }
+.memory-body h4 { margin:0 0 6px; font-size:16px; }
+.memory-card .muted { color:var(--muted); }
+
+/* reveal animation */
+.reveal { animation: revealUp .5s ease forwards; }
+@keyframes revealUp {
+  to { transform: translateY(0); opacity:1; }
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .hero-inner { flex-direction:column; align-items:stretch; gap:18px; }
+  .hero-left { max-width:100%; }
+  .card-glass { width:100%; }
+  .hero-title { font-size:28px; }
+  .memory-card { flex-direction:column; }
+  .memory-card .memory-image { width:100%; height:140px; }
+}
+
+/* small helpers */
+.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; font-size:13px; background:#f7f7fa; padding:2px 6px; border-radius:6px; }
+
+/* ===== Couple centered cards (append to index.css) ===== */
+
+/* ===== Couple layout: no outer box, taller portrait photos ===== */
+
+.couple-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.couple-row {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* person card container: remove visible outer box */
+.person-card {
+  flex: 1 1 320px;
+  max-width: 520px;
+  background: transparent;            /* no outer box background */
+  border-radius: 0;                   /* no rounded outer frame */
+  padding: 0;                         /* remove padding so image dominates */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: none;                       /* remove border */
+  box-shadow: none;                   /* remove shadow */
+  transition: transform .18s ease;
+}
+
+/* photo wrapper: larger, portrait (length-wise) */
+.person-photo-wrap {
+  width: 320px;                       /* base width */
+  height: 440px;                      /* taller height for portrait feel */
+  border-radius: 14px;                /* slight rounding on image corners */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg,#fff6fb,#f0fbff); /* subtle bg while image loads */
+  border: 1px solid rgba(14,20,30,0.02);
+}
+
+/* image inside: cover, fills wrapper (portrait crop) */
+.person-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center;
+  transition: transform .6s cubic-bezier(.2,.9,.3,1);
+}
+
+/* name & subtitle — a bit larger */
+.person-info { margin-top: 12px; padding-bottom: 8px; }
+.person-name { font-size: 40px; font-weight:700; color:#0f1724; margin-bottom:6px; }
+.person-sub { font-size:25px; color:var(--muted); }
+
+/* keep a subtle hover scale only on image */
+.person-card:hover { transform: translateY(-6px); }
+.person-card:hover .person-photo { transform: scale(1.04); }
+
+/* Larger photos on wide screens */
+@media (min-width: 1200px) {
+  .person-photo-wrap { width: 380px; height: 520px; border-radius: 16px; }
+}
+
+/* Responsive stacking on small screens (portrait images still tall) */
+@media (max-width: 900px) {
+  .couple-row { flex-direction: column; gap: 18px; padding: 8px; }
+  .person-card { max-width: 100%; padding: 0; }
+  .person-photo-wrap { width: 92%; height: 420px; border-radius: 12px; }
+  .hero-left { text-align: center; }
+  .hero-inner { align-items: center; flex-direction: column; gap: 12px; }
+}
+
+/* tiny accessibility tweak to ensure text remains readable over backgrounds */
+.person-name, .person-sub { text-wrap: balance; }
