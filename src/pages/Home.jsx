@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Countdown({ targetDateIso }) {
   const [left, setLeft] = useState(null);
@@ -42,7 +42,7 @@ export default function Home() {
       { id: 'm2', title: 'Home-cooked dinner', date: '2025-07-10', snippet: 'Tried that new pasta recipe.' },
       { id: 'm3', title: 'Cinema night', date: '2025-06-02', snippet: 'Laughs and popcorn.' },
     ];
-    const t = setTimeout(() => setMemories(sample), 200);
+    const t = setTimeout(() => setMemories(sample), 180);
     return () => clearTimeout(t);
   }, []);
 
@@ -86,17 +86,17 @@ export default function Home() {
         {/* CENTERED COUPLE BOXES */}
         <div className="container couple-center">
           <div className="couple-row">
-            <div className="person-card">
+            <div className="person-card" role="group" aria-label="Irfan">
               <div className="person-photo-wrap">
-                <img src="/boy.jpeg" alt="Sayan" className="person-photo" />
+                <img src="/boy.jpeg" alt="Irfan" className="person-photo" />
               </div>
               <div className="person-info">
-                <div className="person-name">Sayan</div>
+                <div className="person-name">Irfan</div>
                 <div className="person-sub">The Handsome Munda</div>
               </div>
             </div>
 
-            <div className="person-card">
+            <div className="person-card" role="group" aria-label="Rikta">
               <div className="person-photo-wrap">
                 <img src="/girl.jpeg" alt="Rikta" className="person-photo" />
               </div>
@@ -105,6 +105,27 @@ export default function Home() {
                 <div className="person-sub">The Sohneya Gudi</div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* WANT TO SEE MORE (compact stacked name-only boxes) */}
+        <div className="container want-more">
+          <h3 className="want-more-title">Want to see more of:</h3>
+
+          <div className="compact-column" role="tablist" aria-label="Choose person">
+            <NavLink
+              to="/rikta"
+              className={({ isActive }) => `compact-pill compact-rikta ${isActive ? 'compact-active' : ''}`}
+            >
+              Rikta
+            </NavLink>
+
+            <NavLink
+              to="/irfan"
+              className={({ isActive }) => `compact-pill compact-irfan ${isActive ? 'compact-active' : ''}`}
+            >
+              Sayan
+            </NavLink>
           </div>
         </div>
       </div>
