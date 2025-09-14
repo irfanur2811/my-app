@@ -1,32 +1,32 @@
-// src/components/Navbar.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-/**
- * Navbar
- * - mode = "hub"    -> shows: Home
- * - mode = "subpage" -> shows: Home + Back
- *
- * Usage:
- * <Navbar mode="hub" />         // RiktaHub page
- * <Navbar mode="subpage" />     // Rikta photos/videos/family pages
- */
 export default function Navbar({ mode = "hub" }) {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("auth");
+    navigate("/welcome");
+  }
+
   return (
-    <nav className="app-navbar" role="navigation" aria-label="Main navigation">
+    <nav className="app-navbar">
       <div className="nav-left">💖 Sayan &amp; Rikta</div>
 
       <div className="nav-right">
-        {/* Home always available (but we keep hub showing only Home for clarity) */}
-        <Link to="/" className="nav-link">
-          Home
-        </Link>
-
-        {/* On subpages also show Back */}
+        <Link to="/" className="nav-link">Home</Link>
         {mode === "subpage" && (
-          <Link to="/rikta" className="nav-link">
-            Back
-          </Link>
+          <Link to="/rikta" className="nav-link">Back</Link>
+        )}
+        {/* Always show logout if authenticated */}
+        {localStorage.getItem("auth") === "true" && (
+          <button
+            onClick={handleLogout}
+            className="nav-link"
+            style={{ background: "transparent", border: "none", cursor: "pointer" }}
+          >
+            Logout
+          </button>
         )}
       </div>
     </nav>

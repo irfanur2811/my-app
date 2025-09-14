@@ -1,8 +1,9 @@
-// src/App.jsx
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 /* Pages */
+import Welcome from "./pages/Welcome";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import RiktaHub from "./pages/RiktaHub";
 import Rikta from "./pages/Rikta";
@@ -12,17 +13,78 @@ import Irfan from "./pages/Irfan";
 import Patients from "./pages/Patients";
 import NotFound from "./pages/NotFound";
 
+function PrivateRoute({ children }) {
+  const auth = localStorage.getItem("auth");
+  return auth === "true" ? children : <Navigate to="/welcome" replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/rikta" element={<RiktaHub />} />
-        <Route path="/rikta/photos" element={<Rikta />} />
-        <Route path="/rikta/videos" element={<RiktaVideos />} />
-        <Route path="/rikta/family" element={<RiktaFamily />} />
-        <Route path="/irfan" element={<Irfan />} />
-        <Route path="/patients" element={<Patients />} />
+        {/* Public */}
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Private */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/rikta"
+          element={
+            <PrivateRoute>
+              <RiktaHub />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/rikta/photos"
+          element={
+            <PrivateRoute>
+              <Rikta />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/rikta/videos"
+          element={
+            <PrivateRoute>
+              <RiktaVideos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/rikta/family"
+          element={
+            <PrivateRoute>
+              <RiktaFamily />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/irfan"
+          element={
+            <PrivateRoute>
+              <Irfan />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/patients"
+          element={
+            <PrivateRoute>
+              <Patients />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
