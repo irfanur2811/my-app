@@ -1,7 +1,7 @@
 // src/pages/Rikta.jsx
 import React, { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { FiDownload } from "react-icons/fi"; // 👈 Import download icon
+import Navbar from "../components/Navbar";
+import { FiDownload } from "react-icons/fi";
 
 export default function Rikta() {
   const [photos, setPhotos] = useState([]);
@@ -14,6 +14,11 @@ export default function Rikta() {
     list.push("/g35.jpeg", "/g36.jpeg");
     setPhotos(list);
   }, []);
+
+  function openAt(i) {
+    setOpenIndex(i);
+    document.body.style.overflow = "hidden";
+  }
 
   const closeModal = useCallback(() => {
     setOpenIndex(-1);
@@ -55,40 +60,32 @@ export default function Rikta() {
   }
 
   return (
-    <section className="page">
-      <div className="container">
-        <h2>Rikta's Gallery</h2>
-        <p className="muted">
-          Click any photo to open the viewer — use arrow keys or buttons to
-          navigate.
-        </p>
+    <div>
+      <Navbar mode="subpage" />
 
-        <div className="gallery-grid">
-          {photos.map((src, idx) => (
-            <div
-              key={src}
-              className="thumb reveal"
-              style={{ animationDelay: `${idx * 40}ms` }}
-              onClick={() => {
-                setOpenIndex(idx);
-                document.body.style.overflow = "hidden";
-              }}
-              role="button"
-              aria-label={`Open photo ${idx + 1}`}
-              tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && setOpenIndex(idx)}
-            >
-              <img src={src} alt={`Rikta ${idx + 1}`} loading="lazy" />
-            </div>
-          ))}
-        </div>
+      <section className="page gallery-page">
+        <div className="container">
+          <h2>Rikta's Photos</h2>
+          <p className="muted">Click any photo to open the viewer — use arrow keys or buttons to navigate.</p>
 
-        <div style={{ marginTop: 18 }}>
-          <Link to="/" className="btn btn-ghost">
-            ← Back Home
-          </Link>
+          <div className="gallery-grid">
+            {photos.map((src, idx) => (
+              <div
+                key={src}
+                className="thumb reveal"
+                style={{ animationDelay: `${idx * 40}ms` }}
+                onClick={() => openAt(idx)}
+                role="button"
+                aria-label={`Open photo ${idx + 1}`}
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && openAt(idx)}
+              >
+                <img src={src} alt={`Rikta ${idx + 1}`} loading="lazy" onError={(e)=>{e.currentTarget.style.visibility='hidden'}}/>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {openIndex > -1 && (
         <div
@@ -99,13 +96,9 @@ export default function Rikta() {
           aria-modal="true"
         >
           <div className="lb-frame">
-            <button className="lb-close" onClick={closeModal}>
-              ✕
-            </button>
+            <button className="lb-close" onClick={closeModal} aria-label="Close viewer">✕</button>
 
-            <button className="lb-nav lb-prev" onClick={prev}>
-              ‹
-            </button>
+            <button className="lb-nav lb-prev" onClick={prev} aria-label="Previous image">‹</button>
 
             <div className="lb-content">
               <img
@@ -113,24 +106,21 @@ export default function Rikta() {
                 alt={`Rikta ${openIndex + 1}`}
                 className="lb-image"
                 key={photos[openIndex]}
+                onError={(e) => { e.currentTarget.style.opacity = '0.12'; }}
               />
-              <div className="lb-caption">
-                {openIndex + 1} of {photos.length}
-              </div>
+              <div className="lb-caption">{openIndex + 1} of {photos.length}</div>
             </div>
 
-            <button className="lb-nav lb-next" onClick={next}>
-              ›
-            </button>
+            <button className="lb-nav lb-next" onClick={next} aria-label="Next image">›</button>
 
-            <div className="lb-actions">
-              <button className="btn btn-glow" onClick={downloadCurrent}>
-                <FiDownload size={22} /> {/* 👈 download icon */}
+            <div className="lb-actions" aria-hidden>
+              <button className="icon-btn" onClick={downloadCurrent} title="Download">
+                <FiDownload size={20} />
               </button>
             </div>
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }

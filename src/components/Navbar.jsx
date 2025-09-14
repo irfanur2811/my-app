@@ -1,22 +1,34 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+// src/components/Navbar.jsx
+import React from "react";
+import { Link } from "react-router-dom";
 
-const active = ({ isActive }) => (isActive ? 'nav-link active' : 'nav-link');
-
-export default function Navbar() {
+/**
+ * Navbar
+ * - mode = "hub"    -> shows: Home
+ * - mode = "subpage" -> shows: Home + Back
+ *
+ * Usage:
+ * <Navbar mode="hub" />         // RiktaHub page
+ * <Navbar mode="subpage" />     // Rikta photos/videos/family pages
+ */
+export default function Navbar({ mode = "hub" }) {
   return (
-    <header className="site-header">
-      <div className="nav-inner container">
-        <div className="brand">
-          <a href="/" className="brand-link">MySite</a>
-        </div>
-        <nav className="nav">
-          <NavLink to="/" className={active} end>Home</NavLink>
-          <NavLink to="/about" className={active}>About</NavLink>
-          <NavLink to="/patients" className={active}>Patients</NavLink>
-          <NavLink to="/contact" className={active}>Contact</NavLink>
-        </nav>
+    <nav className="app-navbar" role="navigation" aria-label="Main navigation">
+      <div className="nav-left">💖 Sayan &amp; Rikta</div>
+
+      <div className="nav-right">
+        {/* Home always available (but we keep hub showing only Home for clarity) */}
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+
+        {/* On subpages also show Back */}
+        {mode === "subpage" && (
+          <Link to="/rikta" className="nav-link">
+            Back
+          </Link>
+        )}
       </div>
-    </header>
+    </nav>
   );
 }
