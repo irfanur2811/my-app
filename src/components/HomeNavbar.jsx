@@ -1,26 +1,19 @@
-// src/components/HomeNavbar.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "./HomeNavbar.css";
 
-export default function HomeNavbar() {
+export default function HomeNavbar({ showBack, backTo }) {
   const navigate = useNavigate();
-
-  function handleLogout() {
+  function logout() {
     localStorage.removeItem("auth");
     navigate("/welcome");
   }
-
   return (
     <nav className="app-navbar">
       <div className="nav-left">💖 Sayan &amp; Rikta</div>
       <div className="nav-right">
-        <button
-          onClick={handleLogout}
-          className="nav-link"
-          style={{ background: "transparent", border: "none", cursor: "pointer" }}
-        >
-          Logout
-        </button>
+        {showBack && <button className="nav-btn" onClick={() => navigate(backTo || "/")}>Back</button>}
+        <button className="nav-btn" onClick={logout}>Logout</button>
       </div>
     </nav>
   );

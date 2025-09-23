@@ -1,126 +1,173 @@
 // src/pages/Rikta.jsx
 import React, { useEffect, useState, useCallback } from "react";
-import Navbar from "../components/Navbar";
-import { FiDownload } from "react-icons/fi";
+import "./Rikta.css";
 
 export default function Rikta() {
-  const [photos, setPhotos] = useState([]);
-  const [openIndex, setOpenIndex] = useState(-1);
+  const folder = "/R1"; // public/R1
+  const basename = "a"; // a1.jpg, a2.jpg, ...
+  const maxToCheck = 68;
+  const exts = [".jpg", ".jpeg", ".png", ".webp"];
+
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [current, setCurrent] = useState(null);
+
+  // helper: check if file exists
+  const exists = async (url) => {
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const candidateUrlsForIndex = (i) =>
+    exts.map((ext) => `${folder}/${basename}${i}${ext}`);
 
   useEffect(() => {
-    const list = Array.from({ length: 34 }, (_, i) => `/g${i + 1}.jpg`);
-    list[26] = "/g27(1).jpeg";
-    list[31] = "/g32(1).jpeg";
-    list.push("/g35.jpeg", "/g36.jpeg");
-    setPhotos(list);
+    let cancelled = false;
+    (async () => {
+      const found = [];
+      let consecutiveMisses = 0;
+      const maxConsecutiveMissesBeforeStop = 8;
+
+      for (let i = 1; i <= maxToCheck; i++) {
+        if (cancelled) return;
+        const candidates = candidateUrlsForIndex(i);
+        let foundThisIndex = null;
+        for (const url of candidates) {
+          // eslint-disable-next-line no-await-in-loop
+          const ok = await exists(url);
+          if (ok) {
+            foundThisIndex = url;
+            break;
+          }
+        }
+        if (foundThisIndex) {
+          found.push(foundThisIndex);
+          consecutiveMisses = 0;
+        } else {
+          consecutiveMisses++;
+        }
+        if (consecutiveMisses >= maxConsecutiveMissesBeforeStop) break;
+      }
+
+      if (!cancelled) {
+        setImages(found);
+        setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function openAt(i) {
-    setOpenIndex(i);
-    document.body.style.overflow = "hidden";
-  }
+  // lightbox handlers
+  const openAt = useCallback((i) => setCurrent(i), []);
+  const closeViewer = useCallback(() => setCurrent(null), []);
+  const prev = useCallback(
+    () => setCurrent((c) => (c > 0 ? c - 1 : images.length - 1)),
+    [images.length]
+  );
+  const next = useCallback(
+    () => setCurrent((c) => (c < images.length - 1 ? c + 1 : 0)),
+    [images.length]
+  );
 
-  const closeModal = useCallback(() => {
-    setOpenIndex(-1);
-    document.body.style.overflow = "";
-  }, []);
-
-  const prev = useCallback(() => {
-    setOpenIndex((cur) => (cur <= 0 ? photos.length - 1 : cur - 1));
-  }, [photos.length]);
-
-  const next = useCallback(() => {
-    setOpenIndex((cur) => (cur >= photos.length - 1 ? 0 : cur + 1));
-  }, [photos.length]);
-
+  // keyboard nav
   useEffect(() => {
-    function onKey(e) {
-      if (openIndex === -1) return;
+    if (current === null) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") closeViewer();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
-      if (e.key === "Escape") closeModal();
-    }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [openIndex, prev, next, closeModal]);
+  }, [current, closeViewer, prev, next]);
 
-  function onOverlayClick(e) {
-    if (e.target.dataset.lightbox === "overlay") closeModal();
-  }
-
-  function downloadCurrent() {
-    if (openIndex < 0) return;
-    const url = photos[openIndex];
+  const downloadCurrent = useCallback(() => {
+    if (current === null) return;
+    const url = images[current];
     const a = document.createElement("a");
     a.href = url;
-    a.download = `rikta-${openIndex + 1}${url.substring(url.lastIndexOf("."))}`;
+    a.download = `rikta-${current + 1}${url.substring(url.lastIndexOf("."))}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
-  }
+  }, [current, images]);
 
   return (
-    <div>
-      <Navbar mode="subpage" />
+    <div className="rikta-root">
+      {/* Gradient Header */}
+      <header className="rk-topbar">
+        <div className="rk-left">
+          <div className="rk-logo" aria-hidden="true">💖</div>
+          <span className="rk-brand">Rikta</span>
+        </div>
+        <div className="rk-right">
+          <button className="rk-btn" type="button" onClick={() => window.history.back()}>
+            Back
+          </button>
+          <button className="rk-btn" type="button" onClick={() => console.log("Logout clicked")}>
+            Logout
+          </button>
+        </div>
+      </header>
 
-      <section className="page gallery-page">
-        <div className="container">
-          <h2>Rikta's Photos</h2>
-          <p className="muted">Click any photo to open the viewer — use arrow keys or buttons to navigate.</p>
+      {/* Page content */}
+      <main>
+        <div className="rikta-header">
+          <div className="rk-title">Rikta's Photos</div>
+        </div>
 
-          <div className="gallery-grid">
-            {photos.map((src, idx) => (
-              <div
-                key={src}
-                className="thumb reveal"
-                style={{ animationDelay: `${idx * 40}ms` }}
-                onClick={() => openAt(idx)}
-                role="button"
-                aria-label={`Open photo ${idx + 1}`}
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && openAt(idx)}
-              >
-                <img src={src} alt={`Rikta ${idx + 1}`} loading="lazy" onError={(e)=>{e.currentTarget.style.visibility='hidden'}}/>
+        {loading ? (
+          <div className="rk-loading">Looking for photos in <strong>{folder}</strong> ...</div>
+        ) : images.length === 0 ? (
+          <div className="rk-no">
+            No photos found in <code>{folder}</code>. Put images like <code>{basename}1.jpg</code> etc.
+          </div>
+        ) : (
+          <div className="rk-grid" role="list">
+            {images.map((src, i) => (
+              <div key={src} className="rk-thumb" role="listitem">
+                <button
+                  className="rk-thumb-btn"
+                  onClick={() => openAt(i)}
+                  aria-label={`Open photo ${i + 1}`}
+                >
+                  <img src={src} alt={`Rikta ${i + 1}`} loading="lazy" />
+                </button>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        )}
 
-      {openIndex > -1 && (
-        <div
-          className="lb-overlay"
-          data-lightbox="overlay"
-          onClick={onOverlayClick}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="lb-frame">
-            <button className="lb-close" onClick={closeModal} aria-label="Close viewer">✕</button>
+        {/* Lightbox */}
+        {current !== null && (
+          <div className="rk-lightbox" role="dialog" aria-modal="true">
+            <div className="rk-overlay" onClick={closeViewer} />
 
-            <button className="lb-nav lb-prev" onClick={prev} aria-label="Previous image">‹</button>
+            <div className="rk-lightbox-inner">
+              <div className="rk-controls-top">
+                <button className="rk-close" onClick={closeViewer} aria-label="Close">✕</button>
+                <button className="rk-download" onClick={downloadCurrent} aria-label="Download">⬇</button>
+              </div>
 
-            <div className="lb-content">
-              <img
-                src={photos[openIndex]}
-                alt={`Rikta ${openIndex + 1}`}
-                className="lb-image"
-                key={photos[openIndex]}
-                onError={(e) => { e.currentTarget.style.opacity = '0.12'; }}
-              />
-              <div className="lb-caption">{openIndex + 1} of {photos.length}</div>
-            </div>
+              <button className="rk-arrow left" onClick={prev} aria-label="Previous image">‹</button>
 
-            <button className="lb-nav lb-next" onClick={next} aria-label="Next image">›</button>
+              <div className="rk-image-wrap" onClick={(e) => e.stopPropagation()}>
+                <img src={images[current]} alt={`Open ${current + 1}`} className="rk-large" />
+                <div className="rk-counter">{current + 1} of {images.length}</div>
+              </div>
 
-            <div className="lb-actions" aria-hidden>
-              <button className="icon-btn" onClick={downloadCurrent} title="Download">
-                <FiDownload size={20} />
-              </button>
+              <button className="rk-arrow right" onClick={next} aria-label="Next image">›</button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </main>
     </div>
   );
 }

@@ -1,38 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 export default function Login() {
   const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [pw, setPw] = useState("");
+  const [err, setErr] = useState("");
+  const nav = useNavigate();
 
-  function handleLogin(e) {
+  function submit(e) {
     e.preventDefault();
-    if (name === "rikta" && password === "sayan123") {
-      localStorage.setItem("auth", "true");
-      navigate("/");
+    if (name.trim().toLowerCase() === "rikta" && pw === "sayan123") {
+      localStorage.setItem("auth", "1");
+      nav("/");
     } else {
-      alert("Wrong name or password!");
+      setErr("Wrong name or password");
     }
   }
 
   return (
-    <div className="login-page">
-      <form className="login-form" onSubmit={handleLogin}>
-        <h2>Login</h2>
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+    <main className="login-page">
+      <form className="login-card" onSubmit={submit}>
+        <h1>Login</h1>
+        <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" />
+        <input value={pw} onChange={e => setPw(e.target.value)} type="password" placeholder="Password" />
+        {err && <div className="error">{err}</div>}
         <button type="submit">Submit</button>
       </form>
-    </div>
+    </main>
   );
 }

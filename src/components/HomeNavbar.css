@@ -1,0 +1,5 @@
+.app-navbar{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:linear-gradient(90deg,#ff7eb3,#8ad3ff);color:#fff}
+.nav-left{font-weight:800}
+.nav-right{display:flex;gap:12px}
+.nav-btn{background:transparent;border:1px solid rgba(255,255,255,0.5);color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}
+.nav-btn:hover{transform:translateY(-2px)}

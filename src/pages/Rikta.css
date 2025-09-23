@@ -1,0 +1,274 @@
+/* src/styles/Rikta.css */
+
+/* ---------- Basic resets & box sizing ---------- */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+/* ---------- Page root ---------- */
+.rikta-root {
+  min-height: 100vh;
+  background: #f6fbff;
+  /* small padding so header sits near the very top without touching browser chrome */
+  padding: 8px 16px 20px 16px; /* top, right, bottom, left */
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #0d2433;
+}
+
+/* ---------- Gradient Header (scrolls with page) ---------- */
+/* Small gutters so header stretches across the page but doesn't touch edges */
+.rk-topbar {
+  margin: 6px 8px 18px 8px;    /* small top gap, small side gutters, bottom gap */
+  width: calc(100% - 16px);    /* fill available width inside .rikta-root */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ffafc3 0%, #d6a7ff 45%, #7dc7ff 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 8px 22px rgba(13,36,51,0.12);
+  backdrop-filter: blur(2px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative; /* normal flow (not fixed) */
+  top: 0 !important;  /* override any stray rule trying to push it down */
+}
+
+/* Cap width on very large screens so header doesn't become too long */
+@media (min-width: 1400px) {
+  .rk-topbar {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+}
+
+/* ---------- Header Left (logo + brand) ---------- */
+.rk-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rk-logo {
+  font-size: 20px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+.rk-brand {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  color: white;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* ---------- Header Right (buttons) ---------- */
+.rk-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.rk-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.06s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+.rk-btn:hover { background: rgba(255,255,255,0.22); }
+.rk-btn:active { transform: translateY(1px); }
+
+/* ---------- Page header & content alignment ---------- */
+/* Align these elements to the same small gutters as the header */
+.rikta-header {
+  margin: 10px 8px 18px 8px; /* align with header gutters */
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rk-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+.rk-sub {
+  color: #556b73;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* ---------- Loading / no images ---------- */
+.rk-loading,
+.rk-no {
+  padding: 40px;
+  color: #376b84;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  display: inline-block;
+  margin: 14px 8px;
+  max-width: calc(1280px - 16px);
+}
+
+/* ---------- Gallery grid ---------- */
+/* Small margins so grid aligns with header */
+.rk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 12px 8px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rk-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(13, 36, 51, 0.06);
+  background: #fff;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.rk-thumb:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(13, 36, 51, 0.1);
+}
+.rk-thumb-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+.rk-thumb img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ---------- Lightbox ---------- */
+.rk-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.rk-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 10, 15, 0.7);
+  backdrop-filter: blur(4px);
+}
+.rk-lightbox-inner {
+  position: relative;
+  z-index: 1110;
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  box-sizing: border-box;
+}
+.rk-controls-top {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  gap: 12px;
+  z-index: 1120;
+}
+.rk-close,
+.rk-download {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.rk-download {
+  background: linear-gradient(90deg, #ffb84d, #ff7fa3);
+  color: white;
+  font-weight: 700;
+}
+
+/* ---------- Arrows ---------- */
+.rk-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(255,255,255,0.06);
+  color: white;
+  font-size: 30px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+.rk-arrow.left { left: 20px; }
+.rk-arrow.right { right: 20px; }
+
+/* ---------- Image area ---------- */
+.rk-image-wrap {
+  max-width: 72%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.rk-large {
+  max-height: 72vh;
+  width: auto;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  transition: transform 0.22s ease;
+  transform-origin: center;
+}
+.rk-large:active { transform: scale(0.995); }
+.rk-counter {
+  margin-top: 12px;
+  color: rgba(255,255,255,0.95);
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 1200px) {
+  .rk-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+@media (max-width: 980px) {
+  .rk-topbar { margin: 8px 10px 14px 10px; padding: 10px 14px; border-radius: 10px; }
+  .rk-grid { gap: 12px; margin: 10px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .rk-thumb img { height: 220px; }
+}
+@media (max-width: 640px) {
+  .rk-topbar { margin: 6px 8px 12px 8px; padding: 8px 12px; border-radius: 10px; }
+  .rk-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 8px; }
+  .rk-thumb img { height: 160px; }
+}

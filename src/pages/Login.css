@@ -1,0 +1,5 @@
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f0fbff}
+.login-card{background:#fff;padding:30px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.1);display:flex;flex-direction:column;gap:12px}
+.login-card input{padding:10px;border-radius:8px;border:1px solid #ccc}
+.login-card button{padding:10px;border:none;border-radius:8px;background:linear-gradient(90deg,#ff7eb3,#8ad3ff);color:#fff;font-weight:700}
+.error{color:#b91c1c;font-size:13px}

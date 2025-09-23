@@ -1,0 +1,107 @@
+/* src/pages/RiktaTrad.css */
+
+html, body { margin: 0; padding: 0; }
+
+.trad-root {
+  min-height: 100vh;
+  background: #f6fbff;
+  padding: 8px 16px 24px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #0d2433;
+}
+
+.trad-topbar {
+  margin: 6px auto 18px auto;
+  width: 100%;
+  max-width: 1280px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ffafc3 0%, #d6a7ff 45%, #7dc7ff 100%);
+  color: white; font-weight: 600;
+  box-shadow: 0 8px 22px rgba(13,36,51,0.12);
+}
+
+.trad-left { display:flex; align-items:center; gap:12px; }
+.trad-logo {
+  width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,0.18); border-radius:10px; font-size:20px;
+}
+.trad-brand { font-size:18px; font-weight:700; }
+
+.trad-right { display:flex; gap:12px; }
+.trad-btn {
+  padding:8px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12); color:white; font-weight:600;
+  cursor:pointer; transition: background .18s, transform .06s;
+}
+.trad-btn:hover { background: rgba(255,255,255,0.22); }
+.trad-btn:active { transform: translateY(1px); }
+
+.trad-header {
+  margin: 12px auto 18px auto; max-width: 1280px; padding: 0 8px;
+}
+.trad-title { font-size:28px; font-weight:700; }
+.trad-sub { color:#556b73; margin-top:6px; font-size:14px; }
+
+.trad-loading, .trad-no {
+  padding: 40px; color:#376b84;
+  background: rgba(255,255,255,0.6);
+  border-radius: 10px; display:inline-block;
+  margin: 14px 8px;
+}
+
+.trad-grid {
+  width:100%; max-width:1280px;
+  margin: 8px auto 40px auto;
+  display:grid; grid-template-columns: repeat(5,1fr);
+  gap:20px; padding: 0 8px;
+}
+
+.trad-thumb {
+  border-radius:12px; overflow:hidden; background:#fff;
+  box-shadow: 0 6px 18px rgba(13,36,51,0.06);
+  transition: transform .22s, box-shadow .22s;
+}
+.trad-thumb:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(13,36,51,0.1); }
+.trad-thumb-btn { border:none; background:transparent; width:100%; display:block; cursor:pointer; }
+.trad-thumb img { width:100%; height:240px; object-fit:cover; }
+
+.trad-lightbox {
+  position:fixed; inset:0; z-index:1100;
+  display:flex; align-items:center; justify-content:center;
+}
+.trad-overlay { position:absolute; inset:0; background:rgba(6,10,15,0.7); backdrop-filter:blur(4px); }
+.trad-lightbox-inner { position:relative; z-index:1110; width:100%; max-width:1100px;
+  padding:36px; display:flex; align-items:center; justify-content:center; }
+.trad-controls-top { position:absolute; top:18px; right:18px; display:flex; gap:12px; }
+.trad-close, .trad-download {
+  width:44px; height:44px; border-radius:10px; border:0; cursor:pointer;
+  background:rgba(255,255,255,0.06); color:white; font-size:18px;
+}
+.trad-download { background: linear-gradient(90deg,#ffb84d,#ff7fa3); }
+
+.trad-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:64px; height:64px; border-radius:50%; border:0;
+  background:rgba(255,255,255,0.06); color:white; font-size:30px;
+}
+.trad-arrow.left{ left:20px; }
+.trad-arrow.right{ right:20px; }
+
+.trad-image-wrap { max-width:72%; max-height:80vh; display:flex; flex-direction:column; align-items:center; }
+.trad-large { max-height:72vh; border-radius:14px; box-shadow:0 24px 60px rgba(0,0,0,0.6); }
+.trad-counter { margin-top:12px; color:rgba(255,255,255,0.95); }
+
+@media (max-width:1200px){
+  .trad-grid{ grid-template-columns:repeat(4,1fr); }
+  .trad-thumb img{ height:220px; }
+}
+@media (max-width:980px){
+  .trad-grid{ grid-template-columns:repeat(3,1fr); }
+  .trad-thumb img{ height:200px; }
+}
+@media (max-width:640px){
+  .trad-grid{ grid-template-columns:repeat(2,1fr); }
+  .trad-thumb img{ height:160px; }
+}
