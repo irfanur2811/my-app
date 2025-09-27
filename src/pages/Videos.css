@@ -147,12 +147,25 @@
 }
 
 /* top controls (close/download) */
+/* ensure top controls are above overlay and clickable */
 .vl-top-controls {
-  position:absolute;
-  top:18px;
-  right:18px;
-  display:flex; gap:12px;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2220; /* higher than overlay */
+  display: flex;
+  gap: 12px;
 }
+
+/* ensure close/download buttons accept pointer events */
+.vl-top-controls button {
+  pointer-events: auto;
+}
+
+/* overlay must be under controls */
+.vl-overlay { z-index: 2205; }
+.vl-inner { z-index: 2210; }
+
 .vl-close {
   background: rgba(255,255,255,0.06);
   border:none;
